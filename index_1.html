@@ -1,0 +1,66 @@
+<html lang=ja>
+
+<head>
+  <meta charset="UTF-8">
+  <title>静岡県沼津市 3次元点群データ（3D Tiles）</title>
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.99/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.99/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <style>
+    #cesiumContainer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      overflow: hidden;
+      padding: 0;
+      font-family: sans-serif;
+    }
+
+    html {
+      height: 100%;
+    }
+
+    body {
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    // Cesium Ionの読み込み指定
+    Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlNjk0MTM4NC1lMWI0LTQxNTgtYjcxZS01ZWJhMGJlMTE1MWQiLCJpZCI6MTQ5ODk3LCJpYXQiOjE3MTUxNTEyODZ9.2aUmEQ2-fDsjf-XeC6-hZpwkgwLse3yXoXF4xTOvPAY";
+    // Terrainの指定（EGM96、5m標高から生成した全国の地形モデル、5m標高データが無い場所は10m標高で補完している）
+    var viewer = new Cesium.Viewer("cesiumContainer", {
+      /*
+      terrainProvider: new Cesium.CesiumTerrainProvider({
+        url: Cesium.IonResource.fromAssetId(2488101)
+      })
+      */
+    });
+
+    // 3次元点群データ（3D Tiles）
+    var pc_3dtiles = viewer.scene.primitives.add(new Cesium.Cesium3DTileset({
+      // url: 'http://localhost:8000/3dtiles-pc/tileset.json'
+      url: 'https://public-data.geolonia.com/kaken-3dmap-2024/3dtiles-pc-demo/tileset.json'
+    }));
+
+    // カメラの初期位置の指定
+    viewer.camera.setView({
+      destination: Cesium.Cartesian3.fromDegrees(138.8558872, 35.0993373, 200.0),
+      orientation: {
+        heading: Cesium.Math.toRadians(30.0),
+        pitch: Cesium.Math.toRadians(-20.0),
+        roll: 0.0
+      }
+    });
+  </script>
+</body>
+
+</html>
